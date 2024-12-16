@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabbi'nin Hayal Evi</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 0.5s ease;
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px #ffa07a;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .character {
+            margin: 15px;
+            display: inline-block;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #ffe4e1;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .character img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .character-name {
+            font-size: 1.2em;
+            color: #8b008b;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #8b008b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #ff69b4;
+            transform: scale(1.05);
+        }
+
+        .small-character {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Gabbi'nin Hayal Evi</h1>
+    <p>Rastgele bir karakter görmek için butona tıklayın!</p>
+    <button class="button" onclick="showRandomCharacter()">Rastgele Karakter</button>
+
+    <div class="container" id="characterContainer"></div>
+
+    <script>
+        const characters = [
+            { name: "Gabbi", image: "https://www.dreamworks.com/storage/cms-uploads/gabby-hero2.png" },
+            { name: "Pandi", image: "https://www.dreamworks.com/storage/cms-uploads/pandy-hero2.png" },
+            { name: "Kekedi", image: "https://www.dreamworks.com/storage/cms-uploads/gabbysdollhouse-cakeycat.png" },
+            { name: "Süslü kedi", image: "https://www.dreamworks.com/storage/cms-uploads/mercat-hero.png" },
+            { name: "DJ Kedi Nanesi", image: "https://www.dreamworks.com/storage/cms-uploads/djcatnip-hero2.png" },
+            { name: "Peri Kedi", image: "https://www.dreamworks.com/storage/cms-uploads/kittyfairy-hero.png" },
+            { name: "Yumos Kedi", image: "https://www.dreamworks.com/storage/cms-uploads/pillowcat-hero.png" },
+            { name: "Kediraba", image: "https://www.dreamworks.com/storage/cms-uploads/gabbysdollhouse-carlita-2.png" },
+            { name: "Noel Kedi", image: "https://i.ytimg.com/vi/k4isIv5eXx8/maxresdefault.jpg" },
+        ];
+
+        function getRandomColor() {
+            const colors = ["#f0f8ff", "#ffe4e1", "#fffacd", "#e6e6fa", "#fafad2"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function getRandomPosition() {
+            const x = Math.floor(Math.random() * window.innerWidth);
+            const y = Math.floor(Math.random() * window.innerHeight);
+            return { x, y };
+        }
+
+        function createFloatingImage(image) {
+            const position = getRandomPosition();
+            const smallCharacter = document.createElement("div");
+            smallCharacter.className = "small-character";
+            smallCharacter.style.backgroundImage = `url(${image})`;
+            smallCharacter.style.left = `${position.x}px`;
+            smallCharacter.style.top = `${position.y}px`;
+            document.body.appendChild(smallCharacter);
+
+            // Otomatik olarak kaldırma (5 saniye sonra)
+            setTimeout(() => {
+                smallCharacter.remove();
+            }, 5000);
+        }
+
+        function showRandomCharacter() {
+            const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+            const container = document.getElementById("characterContainer");
+            document.body.style.backgroundColor = getRandomColor();
+
+            // Ana karakter gösterimi
+            container.innerHTML = `
+                <div class="character">
+                    <img src="${randomCharacter.image}" alt="${randomCharacter.name}" />
+                    <div class="character-name">${randomCharacter.name}</div>
+                </div>
+            `;
+
+            // Küçük karakterler oluşturma
+            for (let i = 0; i < 10; i++) {
+                createFloatingImage(randomCharacter.image);
+            }
+        }
+    </script>
+</body>
+</html>
